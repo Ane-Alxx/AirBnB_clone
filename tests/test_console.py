@@ -8,7 +8,7 @@ from io import StringIO
 from models import storage
 from models.engine.file_storage import FileStorage
 from unittest.mock import patch
-
+from models import BaseModel
 
 class test_prompt(unittest.TestCase):
 	"""testing prompts"""
@@ -210,7 +210,7 @@ class test_show(unittest.TestCase):
 		except IOError:
 			pass
 
-	def test_show_missing_class(self):
+	def test_show1(self):
 		messg = "** class name missing **"
 		with patch("sys.stdout", new=StringIO()) as t_out:
 			self.assertFalse(HBNBCommand().onecmd("show"))
@@ -219,7 +219,7 @@ class test_show(unittest.TestCase):
 			self.assertFalse(HBNBCommand().onecmd(".show()"))
 			self.assertEqual(messg, t_out.getvalue().strip())
 
-	def test_show_invalid_class(self):
+	def test_show2(self):
 		messg = "** class doesn't exist **"
 		with patch("sys.stdout", new=StringIO()) as t_out:
 			self.assertFalse(HBNBCommand().onecmd("show MyModel"))
@@ -228,7 +228,7 @@ class test_show(unittest.TestCase):
 			self.assertFalse(HBNBCommand().onecmd("MyModel.show()"))
 			self.assertEqual(messg, t_out.getvalue().strip())
 
-	def test_show_missing_id_space_notation(self):
+	def test_show3(self):
 		messg = "** instance id missing **"
 		with patch("sys.stdout", new=StringIO()) as t_out:
 			self.assertFalse(HBNBCommand().onecmd("show BaseModel"))
@@ -252,7 +252,7 @@ class test_show(unittest.TestCase):
 			self.assertFalse(HBNBCommand().onecmd("show Review"))
 			self.assertEqual(messg, t_out.getvalue().strip())
 
-	def test_show_missing_id_dot_notation(self):
+	def test_show4(self):
 		messg = "** instance id missing **"
 		with patch("sys.stdout", new=StringIO()) as t_out:
 			self.assertFalse(HBNBCommand().onecmd("BaseModel.show()"))
@@ -276,7 +276,7 @@ class test_show(unittest.TestCase):
 			self.assertFalse(HBNBCommand().onecmd("Review.show()"))
 			self.assertEqual(messg, t_out.getvalue().strip())
 
-	def test_show_no_instance_found_space_notation(self):
+	def test_show5(self):
 		messg = "** no instance found **"
 		with patch("sys.stdout", new=StringIO()) as t_out:
 			self.assertFalse(HBNBCommand().onecmd("show BaseModel 1"))
@@ -300,7 +300,7 @@ class test_show(unittest.TestCase):
 			self.assertFalse(HBNBCommand().onecmd("show Review 1"))
 			self.assertEqual(messg, t_out.getvalue().strip())
 
-	def test_show_no_instance_found_dot_notation(self):
+	def test_show6(self):
 		messg = "** no instance found **"
 		with patch("sys.stdout", new=StringIO()) as t_out:
 			self.assertFalse(HBNBCommand().onecmd("BaseModel.show(1)"))
@@ -324,7 +324,7 @@ class test_show(unittest.TestCase):
 			self.assertFalse(HBNBCommand().onecmd("Review.show(1)"))
 			self.assertEqual(messg, t_out.getvalue().strip())
 
-	def test_show_objects_space_notation(self):
+	def test_show7(self):
 		with patch("sys.stdout", new=StringIO()) as t_out:
 			self.assertFalse(HBNBCommand().onecmd("create BaseModel"))
 			test_key = t_out.getvalue().strip()
@@ -382,7 +382,7 @@ class test_show(unittest.TestCase):
 			self.assertFalse(HBNBCommand().onecmd(test_cmd))
 			self.assertEqual(obj.__str__(), t_out.getvalue().strip())
 
-	def test_show_objects_space_notation(self):
+	def test_show8(self):
 		with patch("sys.stdout", new=StringIO()) as t_out:
 			self.assertFalse(HBNBCommand().onecmd("create BaseModel"))
 			test_key = t_out.getvalue().strip()
