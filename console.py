@@ -2,6 +2,9 @@
 """this defines the class for our console"""
 import cmd
 import re
+import json
+import os
+import sys
 from shlex import split
 from models import storage
 from models.base_model import BaseModel
@@ -41,13 +44,13 @@ class HBNBCommand(cmd.Cmd):
 
 	prompt = "(hbnb) "
 	__classes = {
-		"BaseModel",
-		"User",
-		"State",
-		"City",
-		"Place",
-		"Amenity",
-		"Review"
+		"BaseModel": BaseModel,
+		"User": User,
+		"State": State,
+		"City": City,
+		"Place": Place,
+		"Amenity": Amenity,
+		"Review": Review
 	}
 
 	def emptyline(self):
@@ -75,16 +78,16 @@ class HBNBCommand(cmd.Cmd):
 		print("*** Unknown syntax: {}".format(arg))
 		return False
 
-	def console_quit(self, arg):
+	def do_quit(self, arg):
 		"""this is the function for quit"""
 		return True
 
-	def console_EOF(self, arg):
+	def do_EOF(self, arg):
 		"""this is the function for end of file"""
 		print("")
 		return True
 
-	def console_create(self, arg):
+	def do_create(self, arg):
 		"""this is the function for
 		"""
 		argl = parse(arg)
@@ -96,7 +99,7 @@ class HBNBCommand(cmd.Cmd):
 			print(eval(argl[0])().id)
 			storage.save()
 
-	def console_show(self, arg):
+	def do_show(self, arg):
 		"""this is the function for"""
 		argl = parse(arg)
 		obj_dict = storage.all()
@@ -111,7 +114,7 @@ class HBNBCommand(cmd.Cmd):
 		else:
 			print(obj_dict["{}.{}".format(argl[0], argl[1])])
 
-	def console_destroy(self, arg):
+	def do_destroy(self, arg):
 		"""this is the function for"""
 		argl = parse(arg)
 		obj_dict = storage.all()
@@ -127,7 +130,7 @@ class HBNBCommand(cmd.Cmd):
 			del obj_dict["{}.{}".format(argl[0], argl[1])]
 			storage.save()
 
-	def console_all(self, arg):
+	def do_all(self, arg):
 		"""this is the function for"""
 		argl = parse(arg)
 		if len(argl) > 0 and argl[0] not in HBNBCommand.__classes:
@@ -141,7 +144,7 @@ class HBNBCommand(cmd.Cmd):
 					objl.append(obj.__str__())
 			print(objl)
 
-	def console_count(self, arg):
+	def do_count(self, arg):
 		"""this is the function for"""
 		argl = parse(arg)
 		counter = 0
@@ -150,7 +153,7 @@ class HBNBCommand(cmd.Cmd):
 				counter += 1
 		print(counter)
 
-	def console_update(self, arg):
+	def do_update(self, arg):
 		"""this is the function for"""
 		argl = parse(arg)
 		obj_dict = storage.all()
