@@ -60,11 +60,11 @@ class HBNBCommand(cmd.Cmd):
 	def default(self, arg):
 		"""this is the function for """
 		argu_repo = {
-			"all": self.console_all,
-			"show": self.console_show,
-			"destroy": self.console_destroy,
-			"counter": self.console_count,
-			"update": self.console_update
+			"all": self.do_all,
+			"show": self.do_show,
+			"destroy": self.do_destroy,
+			"counter": self.do_count,
+			"update": self.do_update
 		}
 		fix_m = re.search(r"\.", arg)
 		if fix_m is not None:
